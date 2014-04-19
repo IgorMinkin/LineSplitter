@@ -47,28 +47,28 @@ namespace LinePrinter
             return lines;
         }
 
-        private static IEnumerable<string> GetLineWordTokens(List<string> wordTokens, int maxChars, out List<string> remainingTokens)
+        private static IEnumerable<string> GetLineWordTokens(List<string> words, int maxChars, out List<string> remainingWords)
         {
-            int wordCount = 0;
+            int charCount = 0;
 
-            var lineWordTokens = wordTokens.TakeWhile(word =>
+            var lineWordTokens = words.TakeWhile(word =>
             {
-                wordCount += word.Length + 1;
-                return wordCount <= maxChars + 1;
+                charCount += word.Length + 1;
+                return charCount <= maxChars + 1;
             }).ToList();
 
             //handle word exceeds maxChars
             if (!lineWordTokens.Any())
             {
-                string word = wordTokens.First();
+                string word = words.First();
                 var partialToken = word.Substring(0, maxChars);
                 lineWordTokens.Add(partialToken);
-                remainingTokens = wordTokens.Skip(1).ToList();
-                remainingTokens.Insert(0, word.Substring(maxChars));
+                remainingWords = words.Skip(1).ToList();
+                remainingWords.Insert(0, word.Substring(maxChars));
             }
             else
             {
-                remainingTokens = wordTokens.Skip(lineWordTokens.Count()).ToList();
+                remainingWords = words.Skip(lineWordTokens.Count()).ToList();
             }
 
             return lineWordTokens;

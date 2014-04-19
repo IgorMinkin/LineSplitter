@@ -20,6 +20,18 @@ namespace LinePrinter.Tests
         }
 
         [Test]
+        public void SplitIntoLines_oneWordUnderLimit_OneLine()
+        {
+            string input = "ab ab ac";
+            int charLimit = 8;
+
+            var result = new LineSplitter().SplitIntoLines(input, charLimit).ToArray();
+
+            Assert.AreEqual(1, result.Count());
+            Assert.AreEqual(input, result.First());
+        }
+
+        [Test]
         public void SplitIntoLines_lastWordExceedsCharLimit_CarriesOverToNewLine()
         {
             string input = "hello hello hello hi";
